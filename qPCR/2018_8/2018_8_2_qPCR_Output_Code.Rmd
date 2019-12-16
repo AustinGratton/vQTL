@@ -1,0 +1,62 @@
+---
+title: "2018_8_2 qPCR Plate -- 5-22-2019, Stapleton Lab"
+author: "Andrew Norris"
+output: html_document
+---
+##Loading packages
+If you do not already have the qpcR library installed in your R, please uncomment the top line and install before running the rest of the code.
+```{r, warning = F, message = F}
+#install.packages("qpcR")
+library(qpcR)
+```
+##Reading in data
+The data is hosted on my Github so that this code can be run from other machines than my own.
+```{r}
+setwd("~/Stapleton_Lab/Stapleton_Lab/Stress_Splicing/2018_8")
+hex <- read.csv(file = "2018_8_2_plate.csv")
+```
+##Starting with the Analysis
+This is where I generate the models for all of the runs included. 
+```{r, results='hide'}
+m <- modlist(x = hex, cyc = 1, model = l4, remove = "none")
+```
+Calculating the efficiencies of all the models. I had issues with a few cells, so their errors are reported along with which index of the modlist was associated with them.
+```{r}
+heff = lapply(1:length(m),function(x){
+  tryCatch(
+    efficiency(m[[x]],plot = FALSE)
+    , error = function(e) print(c(e,x))
+  )
+})
+```
+This is where we explicitly extract the critical points of the first and second derivatives of the models
+```{r}
+hcpd1 = vector(); hcpd1 = lapply(1:length(heff),function(x){
+  hcpd1 = c(hcpd1, heff[[x]]$cpD1)
+})
+
+hcpd2 = vector(); hcpd2 = lapply(1:length(heff),function(x){
+  hcpd2 = c(hcpd2, heff[[x]]$cpD2)
+})
+
+hcpd1 = as.numeric(hcpd1)
+hcpd2 = as.numeric(hcpd2)
+
+#hcpd1 = unlist(hcpd1, use.names = FALSE)
+#hcpd2 = unlist(hcpd2, use.names = FALSE)
+```
+##Generating output
+We bind the cpD1 and cpD2 results into a dataframe. We also remove the first, 118th, and 163rd column names because the first is for the cycles and the other two had errors in their efficiency calculation. These cells were F3 and H3 respectively. Finally we write a csv output file.
+```{r}
+CT = as.data.frame(rbind(hcpd1,hcpd2), stringsAsFactors = FALSE)
+labels = as.data.frame(hex[c(1:3),-1])
+colnames(CT) = colnames(labels)
+labels.new = NULL
+for (i in 1:length(labels)){
+labels.new = cbind(labels.new, as.character(labels[,i]))
+}
+colnames(labels.new) = colnames(labels)
+eff.frame = as.data.frame(rbind(labels.new,as.character(CT[1,]),as.character(CT[2,])))
+
+write.csv(eff.frame, file= "~/Stapleton_Lab/Stapleton_Lab/Stress_Splicing/2018_8/2018_8_2_qPCR_Output.csv")
+```
