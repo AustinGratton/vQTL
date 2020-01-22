@@ -9,6 +9,8 @@ library(tidyverse)
 
 Maindata = read.csv("https://raw.githubusercontent.com/MRCopeland74/stapleton_lab/master/vQTL/ManchingStressData_Covar.csv")
 
+
+
 #top 10 most significant genes
 Maindata[[3245]][6674] <- "B"
 avgdiff <- tapply(Maindata$Height,Maindata$gpm27, mean)[4:5]
@@ -249,16 +251,23 @@ sub_data$Low.Nitrogen <- as.factor(sub_data$Low.Nitrogen)
 sub_data$Pathogen <- as.factor(sub_data$Pathogen)
 sub_data$Env <- as.factor(sub_data$Env)
 
+
+levels(sub_data$gpm662b)[2]
+
 write_csv(sub_data, "ManchingSigData.csv")
 
-vQTLsub <- read.cross(file = "ManchingSigData.csv" )
+vQTLsub$pheno$ï..Height
+vQTLsub$pheno$
+vQTLsub <- read.cross(file = "ManchingStressData_Covar.csv" )
 vQTLsub <- drop.nullmarkers(vQTLsub)
 vQTLsub <- calc.genoprob(vQTLsub)
 
 sub.scan <- scanonevar(cross = vQTLsub,
-                       mean.formula = Height ~ (Low.Water + Low.Nitrogen + Pathogen)*(mean.QTL.add),
+                       mean.formula = ï..Height ~ (Low.Water + Low.Nitrogen + Pathogen)*(mean.QTL.add),
                        var.formula = ~ (Low.Water + Low.Nitrogen + Pathogen)*(var.QTL.add),
                        return.covar.effects = TRUE)
+
+write_rds(sub.scan, "subscanresults.rds")
 
 write.csv(sub.scan$result, file = "sub_scan_results_int_LW.csv")
 
