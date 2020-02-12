@@ -1,3 +1,5 @@
+library(gridExtra)
+library(qtl)
 library(vqtl)
 library(ggplot2)
 
@@ -20,8 +22,8 @@ hyv_p1 <- scanonevar(cross = test_hyb,
 
 
 test_inbr <- calc.genoprob(test_inbr, error.prob = .001)
-so_p2 <- scanone(cross = test_inbr, pheno.col = 'stress')
-sov_p2 <- scanonevar(cross = test_inbr,
+in_p1 <- scanone(cross = test_inbr, pheno.col = 'stress')
+inv_p1 <- scanonevar(cross = test_inbr,
 										 mean.formula = stress ~ mean.QTL.add,
 										 var.formula = ~ var.QTL.add)
 
@@ -49,9 +51,79 @@ sov_p2 <- scanonevar(cross = test_inbr,
 ymax <- 6
 
 
-plot(p1_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax))
-plot(p2_LOD_scan <- plot(x = sov_p2, y = so_p2, ymax = ymax))
 
+chr1_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(1))
+chr2_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(2))
+chr3_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(3))
+chr4_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(4))
+chr5_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(5))
+chr6_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(6))
+chr7_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(7))
+chr8_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(8))
+chr9_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(9))
+chr10_LOD_scan <- plot(x = hyv_p1, y = hy_p1, ymax = ymax, chr = c(10))
+
+table(as.character(test_hyb$geno$`1`$data))
+
+test_hyb$geno$`1`$data[is.na(test_hyb$geno$`1`$data)] <- 2
+test_hyb$geno$`2`$data[is.na(test_hyb$geno$`2`$data)] <- 2
+test_hyb$geno$`3`$data[is.na(test_hyb$geno$`3`$data)] <- 2
+test_hyb$geno$`4`$data[is.na(test_hyb$geno$`4`$data)] <- 2
+test_hyb$geno$`5`$data[is.na(test_hyb$geno$`5`$data)] <- 2
+test_hyb$geno$`6`$data[is.na(test_hyb$geno$`6`$data)] <- 2
+test_hyb$geno$`7`$data[is.na(test_hyb$geno$`7`$data)] <- 2
+test_hyb$geno$`8`$data[is.na(test_hyb$geno$`8`$data)] <- 2
+test_hyb$geno$`9`$data[is.na(test_hyb$geno$`9`$data)] <- 2
+test_hyb$geno$`10`$data[is.na(test_hyb$geno$`10`$data)] <- 2
+
+
+mean_var_plot_model_based(test_hyb, 'stress', 'gpm27', genotype.names = c('A','-','B'))
+
+hyv_p1$result$loc.name[hyv_p1$result$mvQTL.asymp.p <= .05]
+
+table(hyv_p1$result$mQTL.asymp.p <= .05)
+table(hyv_p1$result$mvQTL.asymp.p <= .05)
+table(1-hyv_p1$result$vQTL.asymp.p <= .05)
+
+hyv_p1$result$loc.name[hyv_p1$result$mQTL.asymp.p <= .05]
+
+
+table(test_inbr$geno$`1`$data)
+test_inbr$geno$`1`$data[is.na(test_inbr$geno$`1`$data)] <- NA
+test_inbr$geno$`2`$data[is.na(test_inbr$geno$`2`$data)] <- 2
+test_inbr$geno$`3`$data[is.na(test_inbr$geno$`3`$data)] <- 2
+test_inbr$geno$`4`$data[is.na(test_inbr$geno$`4`$data)] <- 2
+test_inbr$geno$`5`$data[is.na(test_inbr$geno$`5`$data)] <- 2
+test_inbr$geno$`6`$data[is.na(test_inbr$geno$`6`$data)] <- 2
+test_inbr$geno$`7`$data[is.na(test_inbr$geno$`7`$data)] <- 2
+test_inbr$geno$`8`$data[is.na(test_inbr$geno$`8`$data)] <- 2
+test_inbr$geno$`9`$data[is.na(test_inbr$geno$`9`$data)] <- 2
+test_inbr$geno$`10`$data[is.na(test_inbr$geno$`10`$data)] <- 2
+
+table(inv_p1$result$mQTL.asymp.p <= .05)
+table(inv_p1$result$mvQTL.asymp.p <= .05)
+table(inv_p1$result$vQTL.asymp.p <= .05)
+
+sig.loc = inv_p1$result$loc.name[inv_p1$result$vQTL.asymp.p <= .05]
+
+
+sig.plot1 = mean_var_plot_model_based(test_hyb, 'stress', sig.loc[1], genotype.names = c('A','B'))
+sig.plot2 = mean_var_plot_model_based(test_hyb, 'stress', sig.loc[2], genotype.names = c('A','B'))
+sig.plot3 = mean_var_plot_model_based(test_hyb, 'stress', sig.loc[3], genotype.names = c('A','B'))
+sig.plot4 = mean_var_plot_model_based(test_hyb, 'stress', 'gpm603', genotype.names = c('A','B'))
+sig.plot5 = mean_var_plot_model_based(test_hyb, 'stress', sig.loc[5], genotype.names = c('A','B'))
+
+require(gridExtra)
+grid.arrange(sig.plot1, sig.plot2, sig.plot3, sig.plot4, sig.plot5, ncol = 2)
+
+test_cross = readRDS("../qPCR/rcorty/saves/test_cross2.RDS")
+mean_var_plot_model_based(test_cross, 'phenotype4', 'D3M6')
+
+require(gridExtra)
+grid.arrange(chr1_LOD_scan, chr2_LOD_scan, chr3_LOD_scan, chr4_LOD_scan, chr5_LOD_scan, chr6_LOD_scan, chr7_LOD_scan, chr8_LOD_scan, chr9_LOD_scan, chr10_LOD_scan, ncol=3)
+
+
+plot(p2_LOD_scan <- plot(x = sov_p2, y = so_p2, ymax = ymax))
 
 
 
