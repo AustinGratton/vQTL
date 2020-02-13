@@ -256,9 +256,9 @@ levels(sub_data$gpm662b)[2]
 
 write_csv(sub_data, "ManchingSigData.csv")
 
-vQTLsub$pheno$ï..Height
-vQTLsub$pheno$
 vQTLsub <- read.cross(file = "ManchingStressData_Covar.csv" )
+vQTLsub <- read.cross(file = "ManchingSigData.csv" )
+
 vQTLsub <- drop.nullmarkers(vQTLsub)
 vQTLsub <- calc.genoprob(vQTLsub)
 
@@ -266,6 +266,13 @@ sub.scan <- scanonevar(cross = vQTLsub,
                        mean.formula = ï..Height ~ (Low.Water + Low.Nitrogen + Pathogen)*(mean.QTL.add),
                        var.formula = ~ (Low.Water + Low.Nitrogen + Pathogen)*(var.QTL.add),
                        return.covar.effects = TRUE)
+
+intOneVar <- scanonevar(cross = vQTLsub, 
+                        mean.formula = ï..Height ~ (Low.Water*(mean.QTL.add + mean.QTL.dom) + Low.Nitrogen*(mean.QTL.add + mean.QTL.dom) + Pathogen*(mean.QTL.add + mean.QTL.dom)),
+                        var.formula = ~ (Low.Water*(var.QTL.add + var.QTL.dom) + Low.Nitrogen*(var.QTL.add + var.QTL.dom) + Pathogen*(var.QTL.add + var.QTL.dom)),
+                        return.covar.effects = TRUE)
+
+
 
 write_rds(sub.scan, "subscanresults.rds")
 
@@ -616,6 +623,7 @@ plot(num.AandB.row.avg$temp.H, num.AandB.row.avg$`height.avg/count`)
 Maindata.t = t(Maindata)
 Maindata.t = as.data.frame(Maindata.t)
 Maindata.t = table(Maindata.t$V1)
+Maindata.t$
 perc.chrom <- Maindata.t/3235
 Maindata.t = cbind.data.frame(Maindata.t, perc.chrom)
 
