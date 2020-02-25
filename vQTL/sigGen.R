@@ -7,7 +7,7 @@ library(readr)
 library(dplyr)
 library(tidyverse)
 
-Maindata = read.csv("https://raw.githubusercontent.com/MRCopeland74/stapleton_lab/master/vQTL/ManchingStressData_Covar.csv")
+Maindata = read.csv("https://raw.githubusercontent.com/MRCopeland74/stapleton_lab/master/vQTL/ManchingStressData_Covar.csv")[1:25,1:25]
 
 
 
@@ -253,7 +253,11 @@ sub_data$Env <- as.factor(sub_data$Env)
 
 
 levels(sub_data$gpm662b)[2]
-
+#####################################################################################
+#####################################################################################
+#####################################################################################
+#####################################################################################
+#####################################################################################
 write_csv(sub_data, "ManchingSigData.csv")
 
 vQTLsub <- read.cross(file = "ManchingStressData_Covar.csv" )
@@ -272,8 +276,50 @@ intOneVar <- scanonevar(cross = vQTLsub,
                         var.formula = ~ (Low.Water*(var.QTL.add + var.QTL.dom) + Low.Nitrogen*(var.QTL.add + var.QTL.dom) + Pathogen*(var.QTL.add + var.QTL.dom)),
                         return.covar.effects = TRUE)
 
+##INTERACTIVE
+#with ManchingStressData_covar.csv
+intRealOneVar <- scanonevar(cross = vQTLsub, 
+                        mean.formula = ï..Height ~ Env*(mean.QTL.add + mean.QTL.dom),
+                        var.formula = ~ Env*(var.QTL.add + var.QTL.dom),
+                        return.covar.effects = TRUE)
+table(intRealOneVar$result$mvQTL.asymp.p <= .05)
+
+intRealOneVar$result$mvQTL.lod[1:50]
+intOneResult = intRealOneVar$result
+
+write_csv(intOneResult, "int_Results.csv")
+
+intOneSig = intOneResult[which(intRealOneVar$result$mvQTL.asymp.p <= .05),]
+
+write_csv(intOneSig, "int_SigPvals.csv")
+
+intOnlyPval = intOneResult[,c(1:4,6,8,10)]
+
+write_csv(intOnlyPval, "int_OnlyPvals.csv")
+
+write_rds(intRealOneVar, "InteractiveResult.rds")
+
+hyv_p1$result$loc.name[hyv_p1$result$mvQTL.asymp.p <= .05]
+intOneVar$result$loc.name[intOneVar$result$mvQTL.asymp.p <= .05]
+
+table(intOneVar$result$mvQTL.asymp.p <= .05)
+
+intOneVar$result$mvQTL.lod[1:50]
 
 
+
+
+write_rds(intOneVar, "intOneVarResults.rds")
+
+intResults = intOneVar$result
+
+
+#####################################################################################
+#####################################################################################
+#####################################################################################
+#####################################################################################
+#####################################################################################
+#####################################################################################
 write_rds(sub.scan, "subscanresults.rds")
 
 write.csv(sub.scan$result, file = "sub_scan_results_int_LW.csv")

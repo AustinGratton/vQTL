@@ -7,6 +7,7 @@ test_hyb <-read.cross(file = "../qPCR/FullHybvqtlinput.csv")
 
 test_inbr <-read.cross(file = "../qPCR/FullInbvqtlinput.csv")
 
+df = read.csv(file = "../qPCR/FullInbvqtlinput.csv")
 #calc.genoprob(test_hyb)
 #?calc.genoprob
 #head(as.numeric(as.factor(test_cross$pheno$Barcode)))

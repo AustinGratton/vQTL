@@ -65,23 +65,22 @@ effect.sizes = function (cross, phenotype.name, focal.groups = NULL, nuisance.gr
   return(group.prediction.tbl)
 }
 
-y = 1:length(routv$result$loc.name)
+#y = 1:length(routv$result$loc.name)
+y = 1:7
+
 #effect sizes can not be computed for these 3 SNPs
 rsizedf = sapply(y, function(x){
-  tryCatch({
     print(x)
     tempm =  effect.sizes(cross = fr,
                           phenotype.name = "PlantHeight",
                           genotype.names = c("AA","BB"),
                           focal.groups = routv$result$loc.name[x])
-  }, error = function(e) message(e),
-  finally = function(tempm){
     tempv = c(tempm[1,2:7],tempm[2,2:7])
-    return(unlist(tempv))
-  }
-  )
+    return(tempv)
 })
+
 rsizedf1 <- as.data.frame(matrix(rep(0,length(y)*12), ncol= 12))
+
 sapply(1:length(rsizedf), function(x){
   print(x)
   if(!is.null(rsizedf[[x]])){

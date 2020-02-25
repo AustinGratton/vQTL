@@ -14,12 +14,12 @@ foutv <- scanonevar(cross = family,
                     var.formula = ~ var.QTL.add)
 
 foutvdf<- data.frame(foutv$result$loc.name,
-                     foutv$result$mean.lod,
-                     foutv$result$mean.asymp.p,
-                     foutv$result$var.lod,
-                     foutv$result$var.asymp.p,
-                     foutv$result$joint.lod,
-                     foutv$result$joint.asymp.p)
+                     foutv$result$mQTL.lod,
+                     foutv$result$mQTL.asymp.p,
+                     foutv$result$vQTL.lod,
+                     foutv$result$vQTL.asymp.p,
+                     foutv$result$mvQTL.lod,
+                     foutv$result$mvQTL.asymp.p)
 colnames(foutvdf) = c("SNP Names",
                       "Mean LOD",
                       "Mean P Value",
@@ -82,11 +82,11 @@ effect.sizes = function (cross, phenotype.name, focal.groups = NULL, nuisance.gr
 #this works
 #this is an example of the first one
 sizes = effect.sizes(cross = family,
-                     phenotype.name = "height.in.",
+                     phenotype.name = "PlantHeight",
                      genotype.names = c("AA","BB"),
-                     focal.groups = scrub[1])
-sizes
+                     focal.groups = foutv$result$loc.name[1])
 
+sizes
 fsizedf <- data.frame(NULL)
 
 y = 1:length(foutv$result$loc.name)
@@ -108,13 +108,12 @@ effect.sizes(cross = random,
 
 
 foutvdf<- data.frame(foutv$result$loc.name,
-                     foutv$result$pos,
-                     foutv$result$mean.lod,
-                     foutv$result$mean.asymp.p,
-                     foutv$result$var.lod,
-                     foutv$result$var.asymp.p,
-                     foutv$result$joint.lod,
-                     foutv$result$joint.asymp.p)
+                     foutv$result$mQTL.lod,
+                     foutv$result$mQTL.asymp.p,
+                     foutv$result$vQTL.lod,
+                     foutv$result$vQTL.asymp.p,
+                     foutv$result$mvQTL.lod,
+                     foutv$result$mvQTL.asymp.p)
 #dropping the SNPs whose effect sizes could not be computed
 foutvdf = foutvdf[-c(826),]
 foutvdf = cbind(foutvdf,fsizedf)
