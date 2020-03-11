@@ -5,18 +5,9 @@ library(readr)
 library(dplyr)
 library(tidyverse)
 
-vQTLsub <- read.cross(file = "../ManchingStressData_Covar.csv" )
+setwd("/work/04902/azg5169/stampede2/vQTL/vQTL/SOV.perm")
+intResult = read_rds("InteractiveResult.rds")
 
-vQTLsub <- drop.nullmarkers(vQTLsub)
-vQTLsub <- calc.genoprob(vQTLsub)
+SOVperm = scanonevar.perm(intResult, n.perms = 2, random.seed = 3112020)
 
-
-##INTERACTIVE
-#with ManchingStressData_covar.csv
-intRealOneVar <- scanonevar(cross = vQTLsub, 
-                            mean.formula = ï..Height ~ Env*(mean.QTL.add + mean.QTL.dom),
-                            var.formula = ~ Env*(var.QTL.add + var.QTL.dom),
-                            return.covar.effects = TRUE)
-table(intRealOneVar$result$mvQTL.asymp.p <= .05)
-
-write_rds(intRealOneVar, "InteractiveResult.rds")
+write_rds(SOVperm, "permResult.rds")

@@ -5,6 +5,7 @@ library(readr)
 library(dplyr)
 library(tidyverse)
 
+setwd("/work/04902/azg5169/stampede2/vQTL/vQTL/SOV.perm")
 vQTLsub <- read.cross(file = "../ManchingStressData_Covar.csv" )
 
 vQTLsub <- drop.nullmarkers(vQTLsub)
@@ -17,6 +18,5 @@ intRealOneVar <- scanonevar(cross = vQTLsub,
                             mean.formula = ï..Height ~ Env*(mean.QTL.add + mean.QTL.dom),
                             var.formula = ~ Env*(var.QTL.add + var.QTL.dom),
                             return.covar.effects = TRUE)
-table(intRealOneVar$result$mvQTL.asymp.p <= .05)
 
 write_rds(intRealOneVar, "InteractiveResult.rds")
