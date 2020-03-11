@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #
-#SBATCH -J minday
+#SBATCH -J SOVinit
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --mail-user=azg5169@uncw.edu
@@ -11,5 +11,5 @@
 #SBATCH -A TG-MCB180066
 #SBATCH -o job_%j_%N.out
 #------------------------------------------------------
-mkdir -p output_perm
-Rscript --verbose ./SOVperm.R > ./output_perm.Rout
+mkdir -p output_init
+Rscript --verbose ./SOVinit.R > ./output_init.Rout
