@@ -14,9 +14,6 @@ vQTLsub <- calc.genoprob(vQTLsub)
 
 ##INTERACTIVE
 #with ManchingStressData_covar.csv
-intRealOneVar <- scanonevar(cross = vQTLsub, 
-                            mean.formula = ï..Height ~ Env*(mean.QTL.add + mean.QTL.dom),
-                            var.formula = ~ Env*(var.QTL.add + var.QTL.dom),
-                            return.covar.effects = TRUE)
+intRealOneVar <- scanonevar(cross = vQTLsub, mean.formula = ï..Height ~ Env*(mean.QTL.add + mean.QTL.dom), var.formula = ~ Env*(var.QTL.add + var.QTL.dom), return.covar.effects = TRUE)
 
 write_rds(intRealOneVar, "InteractiveResult.rds")
