@@ -259,9 +259,10 @@ levels(sub_data$gpm662b)[2]
 #####################################################################################
 #####################################################################################
 write_csv(sub_data, "ManchingSigData.csv")
+vQTLsub <- read.cross(file = "ManchingSigData.csv" )
+
 
 vQTLsub <- read.cross(file = "ManchingStressData_Covar.csv" )
-vQTLsub <- read.cross(file = "ManchingSigData.csv" )
 
 vQTLsub <- drop.nullmarkers(vQTLsub)
 vQTLsub <- calc.genoprob(vQTLsub)
@@ -271,7 +272,7 @@ sub.scan <- scanonevar(cross = vQTLsub,
                        var.formula = ~ (Low.Water + Low.Nitrogen + Pathogen)*(var.QTL.add),
                        return.covar.effects = TRUE)
 
-intOneVar <- scanonevar(cross = vQTLsub, 
+intOneVar <- scanonevar.per(cross = vQTLsub, 
                         mean.formula = ï..Height ~ (Low.Water*(mean.QTL.add + mean.QTL.dom) + Low.Nitrogen*(mean.QTL.add + mean.QTL.dom) + Pathogen*(mean.QTL.add + mean.QTL.dom)),
                         var.formula = ~ (Low.Water*(var.QTL.add + var.QTL.dom) + Low.Nitrogen*(var.QTL.add + var.QTL.dom) + Pathogen*(var.QTL.add + var.QTL.dom)),
                         return.covar.effects = TRUE)
@@ -400,6 +401,7 @@ sim.scanf <- scanonevar(cross = vQTLsimf,
                         var.formula = ~  lwc + var.QTL.add + lwc*var.QTL.add,
                         return.covar.effects = TRUE)
 
+scanone
 #write.csv(sim.scan$result, file = "sim_scan_results_int_f.csv")
 
 sim.scanf1 <- scanone(cross = vQTLsimf)
