@@ -1,13 +1,13 @@
 #!/bin/bash
 #
 #
-#SBATCH -J minday
-#SBATCH -N 4
-#SBATCH -n 4
+#SBATCH -J SOVperm
+#SBATCH -N 80
+#SBATCH -n 80
 #SBATCH --mail-user=azg5169@uncw.edu
 #SBATCH --mail-type=all 
 #SBATCH -p skx-normal
-#SBATCH -t 4:00:00
+#SBATCH -t 14:00:00
 #SBATCH -A TG-MCB180066
 #SBATCH -o job_%j_%N.out
 #------------------------------------------------------
