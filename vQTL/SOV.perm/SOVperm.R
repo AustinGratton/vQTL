@@ -12,7 +12,7 @@ intResult = read_rds("InteractiveResult.rds")
 
 #inputs: SOV object, number of permutations, random seed
 #default inputs: n.cores = parallel::detectcores()-2
-SOVperm = scanonevar.perm(intResult, n.perms = 200, random.seed = 3252020)
+SOVperm = scanonevar.perm(intResult, n.perms = 50, random.seed = 3252020)
 
-write_rds(SOVperm, "permResult200.rds")
+write_rds(SOVperm, "permResult50.rds")
 
