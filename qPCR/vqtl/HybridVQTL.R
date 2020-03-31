@@ -7,7 +7,7 @@ library("stringr")
 #library(beepr)
 setwd("C:/Users/twili/Desktop/GIThub/Andrew/stapleton_lab/Stress_Splicing/vqtl/")
 
-stressprod = read.cross(file = "../Heirarchical/FullHybvqtlinput.csv")
+stressprod = read.cross(file = "../qPCR/FullHybvqtlinput.csv")
 stressprod <- drop.nullmarkers(stressprod)
 
 ##### CORTY code #####

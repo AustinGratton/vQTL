@@ -25,33 +25,34 @@ library(Stack)
 #deriv=read.csv(file = "(YEAR_MONTH_PLATE_qPCR_output.csv", header=FALSE)
 deriv_complete=read.csv(file = "../2018_6_1_qPCR_Output.csv", header=FALSE)
 
+rm(test)
+
 ########################################################## 
 ################### Initial Data Framing #################
 ########################################################## 
-
-deriv = deriv_complete
+deriv1 = deriv_complete
 # Remove extra labels column 
-deriv = deriv[,-1]
+deriv1 = deriv1[,-1]
 # Transpose derivatives to be in equivalent format as raw plate data
-deriv = as.data.frame(t(deriv), header=FALSE)
+deriv1 = as.data.frame(t(deriv1), header=FALSE)
 # Remove blank column (4th)
-#deriv = deriv[,-5]
+#deriv1 = deriv1[,-5]
 # Rename columns
-colnames(deriv)=c("plateID", "reaction_type", "sampleID", "starting_quantity", "cpD1", "cpD2")
+colnames(deriv1)=c("plateID", "reaction_type", "sampleID", "starting_quantity", "cpD1", "cpD2")
 ### Removing NTC and gblock-Minus values ###
 # Indicate if sample is NTC (negative control)
-deriv['sampleID_NTC'] = grepl('NTC', deriv$sampleID)
+deriv1['sampleID_NTC'] = grepl('NTC', deriv1$sampleID)
 # Remove NTC samples, indicator (T/F) column, and cpD2 values
-ntc = which(deriv$sampleID_NTC)
-deriv = deriv[-ntc,]
-deriv = deriv[,-c(6,7)]
+ntc = which(deriv1$sampleID_NTC)
+deriv1 = deriv1[-ntc,]
+deriv1 = deriv1[,-c(6,7)]
 # Indicate if sample is 'Plus' or 'Minus'
-deriv['sampleID_Minus'] = grepl('minus', deriv$sampleID)
+deriv1['sampleID_Minus'] = grepl('minus', deriv1$sampleID)
 # Remove 'Minus' values (include only gblock+ values), and indicator (T/F) column
-minus = which(deriv$sampleID_Minus)
-deriv = deriv[-minus,]
-deriv = deriv[,-6]
-deriv$cpD1 = as.numeric(as.character(deriv$cpD1))
+minus = which(deriv1$sampleID_Minus)
+deriv1 = deriv1[-minus,]
+deriv1 = deriv1[,-6]
+deriv1$cpD1 = as.numeric(as.character(deriv1$cpD1))
 
 ### COMPLETED INITIAL DATA FRAMING ###
 
@@ -60,9 +61,9 @@ deriv$cpD1 = as.numeric(as.character(deriv$cpD1))
 ##########################################################
 
 # Remove unusual observations from initial data frame (CT value less than 10)
-deriv = deriv %>% filter(deriv$cpD1 >= 10)
+deriv1 = deriv1 %>% filter(deriv1$cpD1 >= 10)
 # Read in raw cycle data - may need to combine multiple files
-cycle1 = read.csv(file = "2018_6_1_plate.csv", header = FALSE)
+cycle1 = read.csv(file = "../2018_6_1_plate.csv", header = FALSE)
 # Create complete set of reaction data (derivative and cycle)
 reaction = Stack(deriv_complete, cycle1)
 # Remove repeat labeling
@@ -88,9 +89,10 @@ unusual_obs_2018_6 = reaction %>% filter(reaction$cpD1 < 10)
 ########################################################## 
 ################# Calibrated Data Framing ################
 ########################################################## 
+#
 library("rowr")
 # Create/Write data frame for Calibrated values
-calib_data = deriv %>% filter(str_detect(sampleID, "g"))
+calib_data = deriv1 %>% filter(str_detect(sampleID, "g"))
 # Sort by starting quantity
 calib_data = calib_data[order(calib_data$starting_quantity),]
 
@@ -98,8 +100,9 @@ calib_data$starting_quantity = as.numeric(as.character(calib_data$starting_quant
 calib_data$cpD1 = as.numeric(as.character(calib_data$cpD1))
 
 
-test1 = filter(calib_data, reaction_type=="test1")[,5]
-allP = filter(calib_data, reaction_type=="all_products")[,4:5]
+test1 = filter(calib_data, reaction_type=="test1")[,c(5,1)]
+allP = filter(calib_data, reaction_type=="all_products")[,c(1,4:5)]
+
 
 #Combine test1 and allP obs, with NA in blank cells
 calib_data = as.data.frame(cbind.fill(allP, test1, fill = NA))
@@ -122,7 +125,7 @@ write.csv(calib_data, file = "calib_2018_6.csv")
 ########################################################## 
 
 # Create/Write data frame for Experimental values
-exp_data = deriv %>% filter(str_detect(sampleID, "g")==FALSE)
+exp_data = deriv1 %>% filter(str_detect(sampleID, "g")==FALSE)
 # Sort by starting quantity
 exp_data = exp_data[order(exp_data$starting_quantity),]
 # Remove first and last rows (unnecessary labeling)
