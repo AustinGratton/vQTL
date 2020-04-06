@@ -2,8 +2,8 @@
 #
 #
 #SBATCH -J SOVperm
-#SBATCH -N 8
-#SBATCH -n 8
+#SBATCH -N 4
+#SBATCH -n 4
 #SBATCH --mail-user=azg5169@uncw.edu
 #SBATCH --mail-type=all 
 #SBATCH -p skx-normal
