@@ -1,0 +1,22 @@
+site_name: vQTL
+site_description: vQTL Workflow Documentation
+repo_url: https://github.com/AustinGratton/vQTL
+theme: readthedocs
+edit_uri: https://github.com/AustinGratton/vQTL/doc_files
+docs_dir: '/docs'
+pages:
+- Home: index.md
+- 'Data':
+- 'Premium Manual': manual.md
+- Workflow:
+    - 'Getting Started': 'workflow/getting_started.md'
+- Tutorials:
+    - 'Getting Started With High Performance Computing': 'tutorials/hpc_setup.md'
+    - 'Introduction to GitHub and Project Set-up': 'tutorials/github.md'
+    - 'Jobs on HPC': 'tutorials/hpc_use.md'
+    - 'Launcher Module': 'tutorials/launcher_module.md'
+    - 'Reminders and Useful Commands': 'tutorials/reminders.md'
+- 'Updating the Docs': updating.md
+
+
+site_author: 'Austin Gratton'
