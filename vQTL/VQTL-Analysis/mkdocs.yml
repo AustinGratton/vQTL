@@ -1,16 +1,16 @@
 site_name: vQTL
 site_description: vQTL Workflow Documentation
-repo_url: https://github.com/AustinGratton/vQTL/tree/master/VQTL-Analysis
+repo_url: https://github.com/AustinGratton/vQTL/vQTL/VQTL-Analysis.git
 theme: readthedocs
-edit_uri: https://github.com/AustinGratton/vQTL/tree/master/VQTL-Analysis
+edit_uri: https://github.com/AustinGratton/vQTL/vQTL/VQTL-Analysis.git
 nav:
 - Home: 'index.md'
 - Project Overview: 'Project Overview.md'
 - WorkFlow:
     - Getting Started: 'Using R.md'
     - Data: 'Data.md'
-    - qPCR Analysis: 'qPCR Analysis.md'
     - vQTL Analysis': 'vQTL Analysis.md'
+    - qPCR Analysis': 'qPCR Analysis.md'
     - Workflow: 'Workflow.md'
 - Tutorials:
     - Getting Started With High Performance Computing: 'Using HPC.md'
