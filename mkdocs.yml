@@ -1,9 +1,6 @@
 site_name: vQTL
 site_description: vQTL Project Documentation
-repo_url: https://github.com/AustinGratton/vQTL
 theme: readthedocs
-edit_uri: https://github.com/AustinGratton/vQTL
-docs_dir: /docs
 nav:
 - Home: 'index.md'
 - Project Overview: 'Project_Overview.md'
