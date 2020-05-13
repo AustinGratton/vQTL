@@ -1,8 +1,9 @@
 site_name: vQTL
-site_description: vQTL Workflow Documentation
-repo_url: https://github.com/AustinGratton/vQTL/vQTL/VQTL-Analysis.git
+site_description: vQTL Project Documentation
+repo_url: https://github.com/AustinGratton/vQTL/vQTL
 theme: readthedocs
-edit_uri: https://github.com/AustinGratton/vQTL/vQTL/VQTL-Analysis.git
+edit_uri: https://github.com/AustinGratton/vQTL/vQTL
+docs_dir: '/docs'
 nav:
 - Home: 'index.md'
 - Project Overview: 'Project Overview.md'
