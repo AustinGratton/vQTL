@@ -3,7 +3,7 @@ site_description: vQTL Project Documentation
 repo_url: https://github.com/AustinGratton/vQTL/vQTL_Project/doc_files
 theme: readthedocs
 edit_uri: https://github.com/AustinGratton/vQTL/vQTL_Project/doc_files
-site_dir: '../site/'
+site_dir: '/home/docs/checkouts/readthedocs.org/user_builds/vqtl'
 docs_dir: /docs
 pages:
 - 'Home': index.md
