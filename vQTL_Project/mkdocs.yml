@@ -4,9 +4,9 @@ repo_url: https://github.com/AustinGratton/vQTL/vQTL_Project/
 theme: readthedocs
 edit_uri: https://github.com/AustinGratton/vQTL/vQTL_Project/docs
 docs_dir: /docs
-pages:
-- 'Home': index.md
-- 'Project Overview': Project_Overview.md
+nav:
+- Home: 'index.md'
+- Project Overview: 'Project_Overview.md'
 - WorkFlow:
     - 'Getting Started': 'workflow/Using_R.md'
     - 'Data': 'workflow/Data.md'
