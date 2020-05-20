@@ -23,10 +23,13 @@ SOV.perm$result$loc.name[SOV.perm$result$vQTL.asymp.p <= .0001]
 SOV.perm$result$loc.name[SOV.perm$result$mvQTL.asymp.p <= .0001]
 
 
-identical(test_hyb$pheno$Genotype, test_inbr$pheno$Genotype)
 
 
-in_p1 <- scanone(cross = test_full, pheno.col = 'stress')
-inv_p1 <- scanonevar(cross = test_full,
-                     mean.formula = stress ~ mean.QTL.add,
-                     var.formula = ~ var.QTL.add)
+SOV.perm$result$loc.name[SOV.perm$result$mQTL.asymp.p <= .0001]
+SOV.perm$result$loc.name[is.na(SOV.perm$result$vQTL.asymp.p)]
+SOV.perm$result$loc.name[SOV.perm$result$mvQTL.asymp.p <= .0001]
+
+sig.loc = SOV.perm$result$loc.name[is.na(SOV.perm$result$vQTL.asymp.p)]
+
+sig.plot1 = mean_var_plot_model_based(test_full, 'stress', sig.loc[1], genotype.names = c('A','B'))
+
