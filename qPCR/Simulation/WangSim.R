@@ -19,21 +19,45 @@ simu.dglm<-function(n.loci=8, which.mean.loci=c(1:2), hypo.mean.para=c(1,4), whi
  n.var.loci<-ifelse(length(which.var.loci)==length(hypo.var.para),length(which.var.loci),NA)
 
  
+ 
 var.names<-apply(expand.grid('effvar', c(1:n.loci)), 1, paste, collapse=".")
 
 simu.loci<-NULL;
+
 for(i in 1:length(var.names)) simu.loci<-cbind(simu.loci,rbinom(N.obs, 1,simu.prob.var[i]))
 colnames(simu.loci)<-var.names;
 
+env.var<-NULL;
+
+env.var<-cbind(env.var,sample(1:3,N.obs, replace = TRUE))
+colnames(env.var)<-"env";
+
+
+
 all.mean.para<-rep(0,n.loci);all.mean.para[which.mean.loci]<-hypo.mean.para;
 all.var.para<-rep(0,n.loci);all.var.para[which.var.loci]<-hypo.var.para;
+
+
 
 mean.pyntp<-simu.loci%*%all.mean.para;
 var.pyntp<-sapply(simu.loci%*%all.var.para,FUN=function(x) rnorm(1,sd=x));
 pyntp<-mean.pyntp+var.pyntp;
 
 
-simu.obs<-cbind(pyntp,simu.loci);
+simu.obs<-cbind(pyntp,env.var,simu.loci);
+i=1
+for(i in 1:N.obs) {
+  if (simu.obs[i,2] == 3 & simu.obs[i,5]==1){
+    simu.obs[i,1] = simu.obs[i,1]*3
+  }
+   if (simu.obs[i,2]){
+     simu.obs[i,1] = simu.obs[i,1]+0.5
+   }
+  if (simu.obs[i,5]==1){
+    simu.obs[i,1] = simu.obs[i,1]-1
+  }
+}
+
 colnames(simu.obs)[1]<-"pyntp"
 ### question: do we need to have similar data structure as the real data set, that is, the same type of genes? 🧬🧬🧬
 ### or, would a gene 🧬🧬🧬 structure(a composition of mutiple A' 🅰️ s and B' 🅱️s from gene🧬🧬🧬 loci) be an important thing to consider, or just with gene loci is contributing to the pynotype?
